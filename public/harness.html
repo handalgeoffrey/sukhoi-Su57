@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Viewport harness</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #050605;
+        color: #8a8f8a;
+        font: 11px/1.4 monospace;
+        overflow: hidden;
+      }
+      body {
+        padding: 12px;
+      }
+      #stage {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #2a2d2a;
+        background: #0a0b0a;
+      }
+      iframe {
+        display: block;
+        border: 0;
+        background: #0a0b0a;
+        transform-origin: 0 0;
+      }
+      #label {
+        padding-top: 7px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #5e635e;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+    <div id="label"></div>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const width = Number(params.get("w") || 1440);
+      const height = Number(params.get("h") || 900);
+      const scale = Number(params.get("scale") || 0.6);
+      const section = params.get("section") || "hero";
+      const stage = document.getElementById("stage");
+      stage.style.width = `${Math.round(width * scale)}px`;
+      stage.style.height = `${Math.round(height * scale)}px`;
+      const frame = document.createElement("iframe");
+      frame.id = "frame";
+      frame.width = width;
+      frame.height = height;
+      frame.style.width = `${width}px`;
+      frame.style.height = `${height}px`;
+      frame.style.transform = `scale(${scale})`;
+      frame.src = `/`;
+      stage.appendChild(frame);
+      document.getElementById("label").textContent =
+        `${width} x ${height} @ ${scale} // ${section}`;
+      window.__frame = frame;
+    </script>
+  </body>
+</html>
